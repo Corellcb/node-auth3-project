@@ -25,7 +25,7 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
     let { username, password } = req.body;
 
-    Users.findBy({ username })
+    Users.findBy(username)
         .first()
         .then(user => {
             if (user && bcrypt.compareSync(password, user.password)) {
@@ -49,7 +49,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        role: user.role || "user",
+        department: user.role || "user",
     };
 
     const options = {
@@ -58,3 +58,5 @@ function generateToken(user) {
 
     return jwt.sign(payload, jwtSecret, options);
 }
+
+module.exports = router;
